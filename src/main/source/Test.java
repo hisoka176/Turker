@@ -11,42 +11,41 @@ import main.source.data.*;
 import main.source.decomposition.*;
 import main.source.modelr.*;
 import main.source.validation.*;
-import main.source.validation.*;
+
 
 public class Test {
 	public static void main(String[] args){
 		
+			// 获取数据
 			MysqlData mysql = new MysqlData();
 			ArrayList<String> data = mysql.tensor();
 			
-			HashMap<String,Integer> userMap = (HashMap<String,Integer>)mysql.getUserHashMap();
-			HashMap<String,Integer> newsMap = (HashMap<String,Integer>)mysql.getNewsHashMap();
-			HashMap<String,Integer> placeMap = (HashMap<String,Integer>)mysql.getPlaceHashMap();
+			// 因为用户ID很大，3214453这种，所以要映射
+			Map<Integer,Integer> userMap = mysql.getUserHashMap();
+			Map<Integer,Integer> newsMap = mysql.getNewsHashMap();
+			Map<Integer,Integer> placeMap = mysql.getPlaceHashMap();
+			
+			// 分割数据
+			SplitData splitData = new SplitData(data);
+			HashMap<String,ArrayList<String>> dataMap = splitData.process();
+			ArrayList<String> train = dataMap.get("train");
+			ArrayList<String> test = dataMap.get("test");
+			
+			// hosvd
+//			HOSVD hosvd = new HOSVD(train,userMap.size(),newsMap.size(),placeMap.size(),1);
+//			double[][][] original = hooi.getEstimator();
+			//hooi
+			HOOI hooi = new HOOI(train,userMap.size(),newsMap.size(),placeMap.size(),10);
+			double[][][] original = hooi.getEstimator();
+			
+			//precision and recall 
+			Validation validation = new Validation(original,test);
+			String result = validation.printPrecisionAndRecall();
+			System.out.println(result);
+			
+			
 			
  
-			SplitData splitdata = new SplitData(data);
-			HashMap<String,ArrayList<String>> content = splitdata.process();
- 
-			
-			ArrayList<String> train = content.get("train");
-			ArrayList<String> test = content.get("test");
-			
-			Tensor tensor = new Tensor(train,userMap.size(),newsMap.size(),placeMap.size());
-			double[][] userMatrix = tensor.modelR1();
-//			double[][] newsMatrix = tensor.modelR2();
-//			double[][] placeMatrix = tensor.modelR3();
-			double[][][] originalMatrix = tensor.getMatrix();
-			
-			System.out.println(userMatrix.length);
-			System.out.println(userMatrix[0].length);
-			
-			System.out.println(newsMatrix.length);
-			System.out.println(newsMatrix[0].length);
-			
-			System.out.println(placeMatrix.length);
-			System.out.println(placeMatrix[0].length);
-			
-//			HOSVD hosvd = new HOSVD(originalMatrix,userMatrix,newsMatrix,placeMatrix,2);
 			
 		
 		

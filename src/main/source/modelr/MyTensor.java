@@ -10,15 +10,19 @@ import java.util.Iterator;
  
 import java.util.TreeMap;
 
-
+/*
+ * 构建张量使用
+ */
 public class MyTensor {
 	private ArrayList<String>  data = null;
 	private int xdemision = 0;
 	private int ydemision = 0;
 	private int zdemision = 0;
-	private double[][][] matrix = null;
+	private double[][][] matrix = null;//存放的数据
 	
+	//读取ArrayList<String>构建张量
 	public MyTensor(ArrayList<String> data,int xdemision,int ydemision,int zdemision){
+		System.out.println("construct tensor...");
 		this.data = data;
 		this.xdemision = xdemision;
 		this.ydemision = ydemision;
@@ -37,7 +41,7 @@ public class MyTensor {
 		}
 			
 	}
-	
+	// 得到X(1),X是构建的张量
 	public double[][] modelR1(){
 		double[][] result = new double[this.xdemision][this.ydemision*this.zdemision];
 		for(int i = 0;i<this.zdemision;i++){
@@ -50,6 +54,7 @@ public class MyTensor {
 		return result;
 	}
 	
+	// 得到X(2),X是构建的张量
 	public double[][] modelR2(){
 		double[][] result = new double[this.ydemision][this.xdemision*this.zdemision];
 		for(int i = 0;i<this.zdemision;i++){
@@ -61,7 +66,7 @@ public class MyTensor {
 		}
 		return result;
 	}
-	
+	// 得到X(3),X是构建的张量
 	public double[][] modelR3(){
 		double[][] result = new double[this.zdemision][this.zdemision*this.ydemision];
 		for(int i = 0;i<this.ydemision;i++){
@@ -75,7 +80,7 @@ public class MyTensor {
 	}
 	
  
-	
+	// 简单测试
 	public static void main(String[] args){
 		ArrayList<String> a = new ArrayList<String> ();
 		a.add("0,0,0,1");
@@ -111,5 +116,9 @@ public class MyTensor {
 		
 		
 		
+	}
+	// 构建的张量
+	public double[][][] getMatrix() {
+		return matrix;
 	}
 }

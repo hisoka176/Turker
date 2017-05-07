@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.math.*;
 import java.util.*;
 
-
+/* 
+ * 从mysql当中读取数据，用户名、账号写死，注意
+ */
 public class MysqlData {
 	private String driver;
 	private String url;
@@ -28,15 +30,21 @@ public class MysqlData {
 	private Integer placecount = 0;
 	
  
-	
+	/*
+	 * 用户和张量的坐标的映射
+	 */
 	public Map getUserHashMap() {
 		return userHashMap;
 	}
-
+	/* 
+	 * 新闻和张量的坐标映射
+	 */
 	public Map getNewsHashMap() {
 		return newsHashMap;
 	}
-
+	/*
+	 * 地点和张量的坐标映射
+	 */
 	public Map getPlaceHashMap() {
 		return placeHashMap;
 	}
@@ -51,6 +59,9 @@ public class MysqlData {
 		 
 	}
 	
+	/*
+	 * 从MYSQL读入数据，最后结果以user,news,place,distance为字符串，所有记录放在ArrayList<String>当中
+	 */
 	private ArrayList<ArrayList<String>> processSQLData(){
 		ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
 		//初始化连接池
@@ -121,7 +132,7 @@ public class MysqlData {
 		return result;
 		
 	}
-	//得到张量
+	//该方法的输出作为构建张量过程的输入
 	private  ArrayList<String> getTensor(ArrayList<ArrayList<String>> data){
 		ArrayList<String> result = new ArrayList<String>();
 		for(ArrayList<String> temp:data){
